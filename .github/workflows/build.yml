@@ -13,14 +13,17 @@ jobs:
       - name: Setup NuGet
         uses: nuget/setup-nuget@v2
 
+      # El .sln está en la raíz, así que no lleva carpeta delante
       - name: Restore NuGet Packages
-        run: nuget restore AmarothLauncher/AmarothLauncher.sln
+        run: nuget restore AmarothLauncher.sln
 
+      # Compilamos el .sln de la raíz
       - name: Build Solution
-        run: msbuild AmarothLauncher/AmarothLauncher.sln /p:Configuration=Release
+        run: msbuild AmarothLauncher.sln /p:Configuration=Release
         
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: Launcher-Ejecutable
+          # La salida estará en la subcarpeta donde está el proyecto .csproj
           path: AmarothLauncher/bin/Release/
